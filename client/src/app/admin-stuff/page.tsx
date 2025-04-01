@@ -49,7 +49,7 @@ const AdminStuff = () => {
       if (data.image) {
         formData.append("image", data.image)
       }
-     
+
 
       await axios.post("http://localhost:8800/sportstuff", formData)
       console.log(data);
@@ -68,7 +68,7 @@ const AdminStuff = () => {
         <div>
           <form onSubmit={handleSubmit(onCreateProduct)} className='flex flex-col'>
             <input type="text" placeholder='title' {...register('title')} />
-            <input type="text" placeholder='description' {...register('description')} />
+            <textarea placeholder='description' {...register('description')} />
             <input type="number" placeholder='price' {...register("price")} />
             <input
               type="file"
@@ -83,7 +83,7 @@ const AdminStuff = () => {
             />
             {preview && <img src={preview} alt="Preview" width={200} />}
             <input type="text" placeholder='category' {...register("category")} />
-            <input type="text" placeholder='characteristics' {...register("characteristics")} />
+            <textarea placeholder='characteristics' {...register("characteristics")} />
             <input type="submit" className='cursor-pointer' />
           </form>
         </div>}

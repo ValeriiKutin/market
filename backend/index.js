@@ -29,7 +29,7 @@ const upload = multer({ storage })
 app.listen(8800, () => {
     console.log('Connected to backend server!');
 })
-
+/* manipulate with sportstuff*/
 app.get('/sportstuff', (req, res) => {
     const query = "SELECT * FROM sportstuff";
 
@@ -40,11 +40,12 @@ app.get('/sportstuff', (req, res) => {
     })
 })
 
+
 app.post('/sportstuff', upload.single("image"), (req, res) => {
 
     const imageUrl = req.file ? `http://localhost:8800/uploads/${req.file.filename}` : null;
     console.log(req.file);
-    
+
     const query = 'INSERT INTO sportstuff (`title`, `description`, `price`, `image`, `category`, `characteristics`) VALUES (?)';
 
     const values = [
@@ -62,4 +63,46 @@ app.post('/sportstuff', upload.single("image"), (req, res) => {
         return res.json('Product has been create.');
     })
 })
+/* manipulate with sportstuff*/
+/* ------------------------------------------------------------------- */
+/* users table */
+app.get('/users', (req, res) => {
+    const { uid } = req.query;
 
+    if (uid) {
+        const query = "SELECT * FROM users WHERE uid = ?";
+        db.query(query, [uid], (err, data) => {
+            if (err) return res.json(err);
+            if (data.length === 0) {
+                return res.status(404).json({ message: "User not found" });
+            }
+            return res.json(data);
+        });
+    } else {
+        const query = "SELECT * FROM users";
+        db.query(query, (err, data) => {
+            if (err) return res.json(err);
+            return res.json(data);
+        });
+    }
+});
+
+app.post('/users', (req, res) => {
+
+    const query = 'INSERT INTO users (`displayName`, `email`, `photoURL`, `role`, `uid`) VALUES (?)';
+
+    const values = [
+        req.body.displayName,
+        req.body.email,
+        req.body.photoURL,
+        req.body.role,
+        req.body.uid
+    ];
+
+    db.query(query, [values], (err, data) => {
+        if (err) return res.json(err)
+
+        return res.json('User has been add.');
+    })
+})
+/* users table */

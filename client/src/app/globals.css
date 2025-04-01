@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil:opsz,wght@10..72,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import "tailwindcss";
 
+
 * {
   box-sizing: border-box;
 }
@@ -10,6 +11,6 @@ body {
 }
 
 .container-main {
-  max-width: 1200px;
+  max-width: 1440px;
   margin: 0 auto;
 }

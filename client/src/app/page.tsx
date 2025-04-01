@@ -23,9 +23,16 @@ export default function Home() {
   }, [dispatch])
   console.log(products);
   return (
-    <div>
+    <div className='flex space-x-4 flex-wrap mt-5'>
       {products.map((product) => (
-        <div key={product.price}><img src={product?.image} alt="" /></div>
+        <div
+          key={product.price}
+          className='w-[250px] border border-gray-100 p-[15px] group h-[350px] hover:h-[600px] transition-all duration-300 overflow-hidden hover:shadow-lg'
+        >
+          <img src={product?.image} alt="" className="w-[200px] h-[200px] object-cover rounded-lg max-w-full" />
+          <p>{product.title}</p>
+          <span>{product?.price} грн</span>
+        </div>
       ))}
     </div>
   );
