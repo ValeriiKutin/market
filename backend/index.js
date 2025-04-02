@@ -42,11 +42,12 @@ app.get('/sportstuff', (req, res) => {
 
 
 app.post('/sportstuff', upload.single("image"), (req, res) => {
+    console.log("Received data:", req.body);
+    console.log("Received file:", req.file);
 
     const imageUrl = req.file ? `http://localhost:8800/uploads/${req.file.filename}` : null;
-    console.log(req.file);
 
-    const query = 'INSERT INTO sportstuff (`title`, `description`, `price`, `image`, `category`, `characteristics`) VALUES (?)';
+    const query = 'INSERT INTO sportstuff (`title`, `description`, `price`, `image`, `category`, `characteristics`, `sizeS`, `sizeM`, `sizeL`, `sizeXL`, `sizeXXL`) VALUES (?)';
 
     const values = [
         req.body.title,
@@ -54,7 +55,12 @@ app.post('/sportstuff', upload.single("image"), (req, res) => {
         req.body.price,
         imageUrl,
         req.body.category,
-        req.body.characteristics
+        req.body.characteristics,
+        req.body.sizeS || null,
+        req.body.sizeM || null,
+        req.body.sizeL || null,
+        req.body.sizeXL || null,
+        req.body.sizeXXL || null,
     ];
 
     db.query(query, [values], (err, data) => {
