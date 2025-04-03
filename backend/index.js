@@ -47,9 +47,10 @@ app.post('/sportstuff', upload.single("image"), (req, res) => {
 
     const imageUrl = req.file ? `http://localhost:8800/uploads/${req.file.filename}` : null;
 
-    const query = 'INSERT INTO sportstuff (`title`, `description`, `price`, `image`, `category`, `characteristics`, `sizeS`, `sizeM`, `sizeL`, `sizeXL`, `sizeXXL`) VALUES (?)';
+    const query = 'INSERT INTO sportstuff (`article`,`title`, `description`, `price`, `image`, `category`, `characteristics`, `sizeS`, `sizeM`, `sizeL`, `sizeXL`, `sizeXXL`) VALUES (?)';
 
     const values = [
+        req.body.article,
         req.body.title,
         req.body.description,
         req.body.price,

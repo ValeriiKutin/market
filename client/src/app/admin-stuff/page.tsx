@@ -10,12 +10,18 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 interface CreateProductValue {
+  article: string
   title: string
   description: string
   price: number
   image?: File | null
   category: string
   characteristics: string
+  sizeS: string
+  sizeM: string
+  sizeL: string
+  sizeXL: string
+  sizeXXL: string
 }
 
 const AdminStuff = () => {
@@ -26,25 +32,36 @@ const AdminStuff = () => {
 
   const schema = yup.object().shape({
     title: yup.string().required(),
+    article: yup.string().required(),
     description: yup.string().required(),
     price: yup.number().required(),
     category: yup.string().required(),
-    characteristics: yup.string().required()
-  })
+    characteristics: yup.string().required(),
+    sizeS: yup.string().optional(),
+    sizeM: yup.string().optional(),
+    sizeL: yup.string().optional(),
+    sizeXL: yup.string().optional(),
+    sizeXXL: yup.string().optional(),
+  }) as yup.ObjectSchema<CreateProductValue>;
 
   const { register, handleSubmit, setValue } = useForm<CreateProductValue>(
     { resolver: yupResolver(schema) }
   )
 
-
   const onCreateProduct = async (data: CreateProductValue) => {
     try {
       const formData = new FormData()
+      formData.append("article", data.article)
       formData.append("title", data.title)
       formData.append("description", data.description)
       formData.append("price", data.price.toString())
       formData.append("category", data.category)
       formData.append("characteristics", data.characteristics)
+      formData.append("sizeS", data.sizeS)
+      formData.append("sizeM", data.sizeM)
+      formData.append("sizeL", data.sizeL)
+      formData.append("sizeXL", data.sizeXL)
+      formData.append("sizeXXL", data.sizeXXL)
 
       if (data.image) {
         formData.append("image", data.image)
@@ -67,9 +84,15 @@ const AdminStuff = () => {
       {isBtnAdd &&
         <div>
           <form onSubmit={handleSubmit(onCreateProduct)} className='flex flex-col'>
+            <label htmlFor="">Article:</label>
+            <input type="text" placeholder='article' {...register('article')} />
+            <label htmlFor="">Title:</label>
             <input type="text" placeholder='title' {...register('title')} />
+            <label htmlFor="">Description:</label>
             <textarea placeholder='description' {...register('description')} />
+            <label htmlFor="">Price:</label>
             <input type="number" placeholder='price' {...register("price")} />
+            <label htmlFor="">Img:</label>
             <input
               type="file"
               accept="image/*"
@@ -81,9 +104,34 @@ const AdminStuff = () => {
                 }
               }}
             />
-            {preview && <img src={preview} alt="Preview" width={200} />}
+            {preview && <img src={preview} alt="Preview" width={200} />
+            }
+            <label htmlFor="">Category:</label>
             <input type="text" placeholder='category' {...register("category")} />
+            <label htmlFor="">Characteristics:</label>
             <textarea placeholder='characteristics' {...register("characteristics")} />
+            <div>
+              <div>
+                <label htmlFor="">Size S:</label>
+                <input type="text" {...register('sizeS')} />
+              </div>
+              <div>
+                <label htmlFor="">Size M:</label>
+                <input type="text"  {...register('sizeM')} />
+              </div>
+              <div>
+                <label htmlFor="">Size L:</label>
+                <input type="text"  {...register('sizeL')} />
+              </div>
+              <div>
+                <label htmlFor="">Size XL:</label>
+                <input type="text"  {...register('sizeXL')} />
+              </div>
+              <div>
+                <label htmlFor="">Size XXL:</label>
+                <input type="text"  {...register('sizeXXL')} />
+              </div>
+            </div>
             <input type="submit" className='cursor-pointer' />
           </form>
         </div>}

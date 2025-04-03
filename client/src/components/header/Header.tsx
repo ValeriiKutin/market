@@ -25,14 +25,12 @@ const Header = () => {
     const dispath = useDispatch()
     const isAdmin = useSelector((state: RootState) => state.product.isAdmin)
     const currentUser = useSelector((state: RootState) => state.product.currentUser)
-    console.log(isAdmin);
-    console.log(currentUser);
+
 
     useEffect(() => {
         const getUserByUid = async (uid: any) => {
             try {
                 const res = await axios.get(`http://localhost:8800/users?uid=${uid}`);
-                console.log(res.data);
                 dispath(setCurrentUser(res.data))
             } catch (error) {
                 console.error(error);
@@ -65,7 +63,21 @@ const Header = () => {
 
             <div>
                 {user ? (
-                    <button className='cursor-pointer flex items-center justify-center h-[40px] w-[90px] bg-stone-700 text-white text-[16px] font-medium border-[2px] border-stone-700 hover:bg-amber-50 hover:text-black transition-all duration-300 ease-in-out' onClick={() => handleSignOut(dispath, setIsAdmin)}>Log out<PiSignOutBold className='ml-1.5' /></button>
+                    <div className='flex items-center'>
+                        <div className='group relative'>
+                            <img src={user?.photoURL || ''} alt="userimg" className='rounded-full h-[40px] w-[40px] mr-[15px] relative z-10' />
+                            <div className='relative z-[5] top-[-12px]'>
+                                <div className="absolute right-0 top-full mt-4 w-32 bg-white shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-200 before:content-[''] before:absolute before:bg-white before:w-[50px] before:h-[20px] before:top-[-20px] before:right-[10px]">
+                                    <ul className="text-sm text-gray-700">
+                                        <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Профіль</li>
+                                        <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Налаштування</li>
+                                        <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center" onClick={() => handleSignOut(dispath, setIsAdmin)}> Вийти<PiSignOutBold className='ml-1.5' /></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 ) : (
                     <button className='cursor-pointer flex items-center justify-center h-[40px] w-[90px] bg-stone-700 text-white text-[16px] font-medium border-[2px] border-stone-700 hover:bg-amber-50 hover:text-black transition-all duration-300 ease-in-out' onClick={handleSignIn}>Log in<PiSignInBold className='ml-1.5' /></button>
                 )}
