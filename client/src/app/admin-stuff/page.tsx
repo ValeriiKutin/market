@@ -1,15 +1,22 @@
 'use client'
 import { RootState } from '@/src/components/storeProvider/StoreProviderCustom'
 import { useDispatch, useSelector } from 'react-redux'
-import { setBtnAdd } from '@/src/store/productSlice'
+import { setBtnAdd, setProducts } from '@/src/store/productSlice'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import axios from 'axios'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import { createSportProduct } from '@/src/api/api'
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { MdOutlineModeEdit } from "react-icons/md";
+import { refreshProducts } from '@/src/services/refreshProducts'
+import { deleteProduct } from '@/src/services/deleteProduct'
+import ModalEdit from '@/src/components/modal-edit/ModalEdit'
 
-interface CreateProductValue {
+type SizeFields = 'sizeS' | 'sizeM' | 'sizeL' | 'sizeXL' | 'sizeXXL';
+
+export interface CreateProductValue {
   article: string
   title: string
   description: string
@@ -24,11 +31,26 @@ interface CreateProductValue {
   sizeXXL: string
 }
 
+
 const AdminStuff = () => {
+  const [selectedProduct, setSelectedProduct] = useState<any>([])
+  const [openModal, setOpenModal] = useState<boolean>(false);
   const isBtnAdd = useSelector((state: RootState) => state.product.isBtnAdd)
+  const products = useSelector((state: RootState) => state.product.products)
+  console.log(products);
   const dispatch = useDispatch()
   const router = useRouter()
   const [preview, setPreview] = useState<string | null>(null)
+
+  const handleEditClick = (product: any) => {
+    setSelectedProduct(product);
+    setOpenModal(true);
+  }
+
+
+  useEffect(() => {
+    refreshProducts(dispatch)
+  }, [dispatch])
 
   const schema = yup.object().shape({
     title: yup.string().required(),
@@ -68,7 +90,7 @@ const AdminStuff = () => {
       }
 
 
-      await axios.post("http://localhost:8800/sportstuff", formData)
+      await createSportProduct(formData)
       console.log(data);
       router.push('/')
     } catch (error) {
@@ -76,23 +98,31 @@ const AdminStuff = () => {
     }
   }
 
-  return (
-    <div>
-      <h2>Admin panel</h2>
-      <button className='cursor-pointer bg-amber-500' onClick={() => dispatch(setBtnAdd())}>Add product</button>
 
+
+  return (
+    <div className='mt-[25px]'>
+      <div className="flex items-start flex-col mb-6">
+        <h2 className="text-2xl font-semibold text-gray-800">Admin Panel</h2>
+        <button
+          onClick={() => dispatch(setBtnAdd())}
+          className="cursor-pointer px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition-colors duration-200"
+        >
+          Open adding menu
+        </button>
+      </div>
       {isBtnAdd &&
-        <div>
-          <form onSubmit={handleSubmit(onCreateProduct)} className='flex flex-col'>
-            <label htmlFor="">Article:</label>
-            <input type="text" placeholder='article' {...register('article')} />
-            <label htmlFor="">Title:</label>
-            <input type="text" placeholder='title' {...register('title')} />
-            <label htmlFor="">Description:</label>
-            <textarea placeholder='description' {...register('description')} />
-            <label htmlFor="">Price:</label>
-            <input type="number" placeholder='price' {...register("price")} />
-            <label htmlFor="">Img:</label>
+        <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-2xl">
+          <form onSubmit={handleSubmit(onCreateProduct)} className='flex flex-col space-y-4'>
+            <label htmlFor="" className="block text-sm font-medium text-gray-700">Article:</label>
+            <input type="text" className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder='article' {...register('article')} />
+            <label htmlFor="" className="block text-sm font-medium text-gray-700">Title:</label>
+            <input className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" type="text" placeholder='title' {...register('title')} />
+            <label htmlFor="" className="block text-sm font-medium text-gray-700">Description:</label>
+            <textarea placeholder='description' className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" {...register('description')} />
+            <label htmlFor="" className="block text-sm font-medium text-gray-700">Price:</label>
+            <input type="number" className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder='price' {...register("price")} />
+            <label htmlFor="" className="block text-sm font-medium text-gray-700">Img:</label>
             <input
               type="file"
               accept="image/*"
@@ -103,38 +133,88 @@ const AdminStuff = () => {
                   setPreview(URL.createObjectURL(file))
                 }
               }}
+              className="mt-1 w-full text-sm text-gray-600 cursor-pointer"
             />
-            {preview && <img src={preview} alt="Preview" width={200} />
+            {preview && <img src={preview} alt="Preview" width={200} className="mt-2 w-48 rounded-lg" />
             }
-            <label htmlFor="">Category:</label>
-            <input type="text" placeholder='category' {...register("category")} />
-            <label htmlFor="">Characteristics:</label>
-            <textarea placeholder='characteristics' {...register("characteristics")} />
+            <label htmlFor="" className="block text-sm font-medium text-gray-700">Category:</label>
+            <input type="text" placeholder='category' {...register("category")} className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <label htmlFor="" className="block text-sm font-medium text-gray-700">Characteristics:</label>
+            <textarea placeholder='characteristics' {...register("characteristics")} className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <fieldset className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              {['S', 'M', 'L', 'XL', 'XXL'].map((size) => (
+                <div key={size}>
+                  <label className="block text-sm font-medium text-gray-700">Size {size}</label>
+                  <input
+                    type="text"
+                    {...register(`size${size}` as SizeFields)}
+                    className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+              ))}
+            </fieldset>
             <div>
-              <div>
-                <label htmlFor="">Size S:</label>
-                <input type="text" {...register('sizeS')} />
-              </div>
-              <div>
-                <label htmlFor="">Size M:</label>
-                <input type="text"  {...register('sizeM')} />
-              </div>
-              <div>
-                <label htmlFor="">Size L:</label>
-                <input type="text"  {...register('sizeL')} />
-              </div>
-              <div>
-                <label htmlFor="">Size XL:</label>
-                <input type="text"  {...register('sizeXL')} />
-              </div>
-              <div>
-                <label htmlFor="">Size XXL:</label>
-                <input type="text"  {...register('sizeXXL')} />
-              </div>
+              <input
+                type="submit"
+                value="Create Product"
+                className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200 cursor-pointer"
+              />
             </div>
-            <input type="submit" className='cursor-pointer' />
           </form>
         </div>}
+      <div className="overflow-auto">
+        <table className="min-w-[1000px] table-auto border border-gray-300 text-sm">
+          <thead className="bg-gray-100">
+            <tr>
+              {['id', 'article', 'title', 'description', 'price', 'image', 'category', 'characteristics', 'sizeS', 'sizeM', 'sizeL', 'sizeXL', 'sizeXXL']?.map((title) => (
+                <th key={title} className="border border-gray-300 px-4 py-2 text-left font-medium text-gray-700">
+                  {title}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {products?.map((product) => (
+              <tr key={product.id} className="hover:bg-gray-50">
+                <td className="border px-4 py-2">{product.id}</td>
+                <td className="border px-4 py-2">{product.article}</td>
+                <td className="border px-4 py-2">{product.title}</td>
+                <td className="border px-4 py-2 truncate max-w-[200px]">{product.description}</td>
+                <td className="border px-4 py-2">${product.price}</td>
+                <td className="border px-4 py-2">
+                  <img src={product.image} alt="product" className="w-12 h-12 object-cover rounded" />
+                </td>
+                <td className="border px-4 py-2">{product.category}</td>
+                <td className="border px-4 py-2 truncate max-w-[200px]">{product.characteristics}</td>
+                <td className="border px-4 py-2">{product.sizeS}</td>
+                <td className="border px-4 py-2">{product.sizeM}</td>
+                <td className="border px-4 py-2">{product.sizeL}</td>
+                <td className="border px-4 py-2">{product.sizeXL}</td>
+                <td className="border px-4 py-2">{product.sizeXXL}</td>
+
+                <td className="border px-4 py-2">
+                  <div className="flex items-center gap-3 justify-center">
+                    <RiDeleteBin6Line
+                      onClick={() => deleteProduct(product?.id, dispatch)}
+                      className="text-red-500 hover:text-red-700 cursor-pointer text-xl transition"
+                      title="Видалити"
+                    />
+                    <MdOutlineModeEdit
+                      className="text-blue-500 hover:text-blue-700 cursor-pointer text-xl transition"
+                      title="Редагувати"
+                      onClick={() => {
+                        handleEditClick(product);
+                      }}
+                    />
+                  </div>
+                </td>
+              </tr>
+
+            ))}
+          </tbody>
+        </table>
+        <ModalEdit selectedProduct={selectedProduct} openModal={openModal} setOpenModal={setOpenModal} />
+      </div>
     </div>
   )
 }

@@ -9,7 +9,7 @@ export type AppDispatch = typeof store.dispatch;
 
 const store = configureStore({
     reducer: {
-        product: productReducer
+        product: productReducer,
     },
     middleware: (getDefaultMiddleware) => {
         return getDefaultMiddleware({
