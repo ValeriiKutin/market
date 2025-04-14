@@ -56,7 +56,7 @@ const ModalEdit = ({ selectedProduct, openModal, setOpenModal }: any) => {
     setSizeL(selectedProduct?.sizeL || '');
     setSizeXL(selectedProduct?.sizeXL || '');
     setSizeXXL(selectedProduct?.sizeXXL || '');
-    setSizeXXL(selectedProduct?.activityLevel || '');
+    setActivityLevel(selectedProduct?.activityLevel || '');
   }, [selectedProduct]);
 
   return (
@@ -78,7 +78,7 @@ const ModalEdit = ({ selectedProduct, openModal, setOpenModal }: any) => {
               <input type="text" placeholder="Назва товару" className="border px-3 py-2 rounded" value={sizeXL} onChange={(e) => setSizeXL(e.target.value)} />
               <input type="text" placeholder="Назва товару" className="border px-3 py-2 rounded" value={sizeXXL} onChange={(e) => setSizeXXL(e.target.value)} />
               <label htmlFor="" className="block text-sm font-medium text-gray-700">Вид активності:</label>
-              <select className='cursor-pointer' onChange={(e) => setActivityLevel(e.target.value)}>
+              <select className='cursor-pointer' onChange={(e) => setActivityLevel(e.target.value)} value={activityLevel}>
                 <option value="low-activity" >Низька активність</option>
                 <option value="mid-activity" >Середня активність</option>
                 <option value="high-activity" >Висока активність</option>

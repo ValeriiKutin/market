@@ -9,7 +9,7 @@ const BottomHeader = () => {
     return (
         <div className='flex h-[40px] bg-[#e0e0e0] mt-3 justify-between'>
             <div className='flex items-center justify-center'>
-                <button className='group flex justify-center items-center bg-black text-amber-50 h-[100%] w-[120px] font-bold cursor-pointer mr-5 relative'>Каталог<IoIosArrowDown className='ml-[10px]' />
+                <button className='group flex justify-center items-center bg-black text-amber-50 h-[100%] w-[120px] font-bold cursor-pointer mr-5 relative pl-[15px] pr-[15px]'>Каталог<IoIosArrowDown className='ml-[10px]' />
                     <div className='absolute top-[40px] left-0 h-[500px] w-[1210px] bg-white hidden group-hover:block shadow-lg p-[15px] z-[5]'>
                         <div className='flex space-x-3'>
                             <Link href='/catalog' className='text-black font-medium hover:text-red-500 mr-[25px]'>Каталог</Link>

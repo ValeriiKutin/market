@@ -116,7 +116,7 @@ const AdminStuff = () => {
         </button>
       </div>
       {isBtnAdd &&
-        <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-2xl">
+        <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-2xl mb-[35px]">
           <form onSubmit={handleSubmit(onCreateProduct)} className='flex flex-col space-y-4'>
             <label htmlFor="" className="block text-sm font-medium text-gray-700">Article:</label>
             <input type="text" className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder='article' {...register('article')} />

@@ -27,7 +27,7 @@ const Catalog = () => {
 
     return (
         <div>
-            <FilterBar catalogUI={true} />
+            <FilterBar isCatalogUI={true} />
             <div className='flex space-x-4 flex-wrap mt-5 ml-[300px]'>
                 {products.map((product) => (
                     <SportProductCard product={product} key={product.article} />
