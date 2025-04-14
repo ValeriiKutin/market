@@ -1,7 +1,7 @@
 'use client'
 import { RootState } from '@/src/components/storeProvider/StoreProviderCustom'
 import { useDispatch, useSelector } from 'react-redux'
-import { setBtnAdd, setProducts } from '@/src/store/productSlice'
+import { setBtnAdd } from '@/src/store/productSlice'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -18,6 +18,7 @@ type SizeFields = 'sizeS' | 'sizeM' | 'sizeL' | 'sizeXL' | 'sizeXXL';
 
 export interface CreateProductValue {
   article: string
+  section: string
   title: string
   description: string
   price: number
@@ -29,6 +30,7 @@ export interface CreateProductValue {
   sizeL: string
   sizeXL: string
   sizeXXL: string
+  activityLevel: string
 }
 
 
@@ -47,7 +49,6 @@ const AdminStuff = () => {
     setOpenModal(true);
   }
 
-
   useEffect(() => {
     refreshProducts(dispatch)
   }, [dispatch])
@@ -55,6 +56,7 @@ const AdminStuff = () => {
   const schema = yup.object().shape({
     title: yup.string().required(),
     article: yup.string().required(),
+    section: yup.string().required(),
     description: yup.string().required(),
     price: yup.number().required(),
     category: yup.string().required(),
@@ -64,6 +66,7 @@ const AdminStuff = () => {
     sizeL: yup.string().optional(),
     sizeXL: yup.string().optional(),
     sizeXXL: yup.string().optional(),
+    activityLevel: yup.string().optional(),
   }) as yup.ObjectSchema<CreateProductValue>;
 
   const { register, handleSubmit, setValue } = useForm<CreateProductValue>(
@@ -74,6 +77,7 @@ const AdminStuff = () => {
     try {
       const formData = new FormData()
       formData.append("article", data.article)
+      formData.append("section", data.section)
       formData.append("title", data.title)
       formData.append("description", data.description)
       formData.append("price", data.price.toString())
@@ -84,11 +88,11 @@ const AdminStuff = () => {
       formData.append("sizeL", data.sizeL)
       formData.append("sizeXL", data.sizeXL)
       formData.append("sizeXXL", data.sizeXXL)
+      formData.append("activityLevel", data.activityLevel)
 
       if (data.image) {
         formData.append("image", data.image)
       }
-
 
       await createSportProduct(formData)
       console.log(data);
@@ -116,6 +120,8 @@ const AdminStuff = () => {
           <form onSubmit={handleSubmit(onCreateProduct)} className='flex flex-col space-y-4'>
             <label htmlFor="" className="block text-sm font-medium text-gray-700">Article:</label>
             <input type="text" className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder='article' {...register('article')} />
+            <label htmlFor="" className="block text-sm font-medium text-gray-700">Section:</label>
+            <input type="text" className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder='section' {...register('section')} />
             <label htmlFor="" className="block text-sm font-medium text-gray-700">Title:</label>
             <input className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" type="text" placeholder='title' {...register('title')} />
             <label htmlFor="" className="block text-sm font-medium text-gray-700">Description:</label>
@@ -141,6 +147,12 @@ const AdminStuff = () => {
             <input type="text" placeholder='category' {...register("category")} className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
             <label htmlFor="" className="block text-sm font-medium text-gray-700">Characteristics:</label>
             <textarea placeholder='characteristics' {...register("characteristics")} className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <label htmlFor="" className="block text-sm font-medium text-gray-700">Вид активності:</label>
+            <select className='cursor-pointer' {...register('activityLevel')}>
+              <option value="low-activity">Низька активність</option>
+              <option value="mid-activity">Середня активність</option>
+              <option value="high-activity">Висока активність</option>
+            </select>
             <fieldset className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {['S', 'M', 'L', 'XL', 'XXL'].map((size) => (
                 <div key={size}>
@@ -166,7 +178,7 @@ const AdminStuff = () => {
         <table className="min-w-[1000px] table-auto border border-gray-300 text-sm">
           <thead className="bg-gray-100">
             <tr>
-              {['id', 'article', 'title', 'description', 'price', 'image', 'category', 'characteristics', 'sizeS', 'sizeM', 'sizeL', 'sizeXL', 'sizeXXL']?.map((title) => (
+              {['id', 'article', 'title', 'description', 'price', 'image', 'category', 'characteristics', 'sizeS', 'sizeM', 'sizeL', 'sizeXL', 'sizeXXL', 'activityLevel']?.map((title) => (
                 <th key={title} className="border border-gray-300 px-4 py-2 text-left font-medium text-gray-700">
                   {title}
                 </th>
@@ -178,6 +190,7 @@ const AdminStuff = () => {
               <tr key={product.id} className="hover:bg-gray-50">
                 <td className="border px-4 py-2">{product.id}</td>
                 <td className="border px-4 py-2">{product.article}</td>
+                <td className="border px-4 py-2">{product.section}</td>
                 <td className="border px-4 py-2">{product.title}</td>
                 <td className="border px-4 py-2 truncate max-w-[200px]">{product.description}</td>
                 <td className="border px-4 py-2">${product.price}</td>
@@ -191,6 +204,7 @@ const AdminStuff = () => {
                 <td className="border px-4 py-2">{product.sizeL}</td>
                 <td className="border px-4 py-2">{product.sizeXL}</td>
                 <td className="border px-4 py-2">{product.sizeXXL}</td>
+                <td className="border px-4 py-2">{product.activityLevel}</td>
 
                 <td className="border px-4 py-2">
                   <div className="flex items-center gap-3 justify-center">

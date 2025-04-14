@@ -4,16 +4,24 @@ interface Subcategory {
     link: string;
 }
 
+interface SubcategoryTitle {
+    name: string;
+    link: string;
+}
+
 interface Categories {
     id: number,
-    title: string,
+    title: SubcategoryTitle[],
     image: string,
     subcategories: Subcategory[]
 }
+
 export const categories: Categories[] = [
     {
         id: 0,
-        title: "Термобілизна Craft",
+        title: [
+            { name: "Термобілизна Craft", link: "/termobilizna" }
+        ],
         image: "/termobilizna.webp",
         subcategories: [
             { id: 0, name: "Чоловіча термобілизна", link: "/cholovicha-termobilizna" },
@@ -26,7 +34,9 @@ export const categories: Categories[] = [
     },
     {
         id: 1,
-        title: "Одяг для бігу та фітнесу",
+        title: [
+            { name: "Одяг для бігу та фітнесу", link: "/odiah-dlia-bihu-ta-fitnesu" }
+        ],
         image: "/odyagdlybigu.webp",
         subcategories: [
             { id: 0, name: "Футболки для бігу та фітнесу", link: "/futbolky-dlia-bigu-ta-fitnesu" },

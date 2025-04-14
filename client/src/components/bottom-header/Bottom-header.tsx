@@ -5,22 +5,24 @@ import { IoIosArrowDown } from "react-icons/io";
 import { IoCart } from "react-icons/io5";
 
 
-
 const BottomHeader = () => {
     return (
         <div className='flex h-[40px] bg-[#e0e0e0] mt-3 justify-between'>
             <div className='flex items-center justify-center'>
                 <button className='group flex justify-center items-center bg-black text-amber-50 h-[100%] w-[120px] font-bold cursor-pointer mr-5 relative'>Каталог<IoIosArrowDown className='ml-[10px]' />
-                    <div className='absolute top-[40px] left-0 h-[500px] w-[1210px] bg-white hidden group-hover:block shadow-lg p-[15px]'>
+                    <div className='absolute top-[40px] left-0 h-[500px] w-[1210px] bg-white hidden group-hover:block shadow-lg p-[15px] z-[5]'>
                         <div className='flex space-x-3'>
+                            <Link href='/catalog' className='text-black font-medium hover:text-red-500 mr-[25px]'>Каталог</Link>
                             {categories?.map((category) => (
                                 <div key={category.id} className='flex justify-start items-start'>
                                     <img src={category?.image} alt="" />
                                     <div className='text-black'>
-                                        <p className='text-left'>{category.title}</p>
+                                        {category.title?.map((title) => (
+                                            <Link key={title.link} href={title.link}><p className='text-left hover:text-red-500'>{title.name}</p></Link>
+                                        ))}
                                         {category.subcategories?.map((subcategor) => (
-                                            <ul key={subcategor?.id} className='flex flex-col items-start font-normal text-[15px]'>
-                                                <li className='hover:text-red-400'><Link href={subcategor?.link}>{subcategor?.name}</Link></li>
+                                            <ul key={subcategor?.id} className='flex flex-col items-start font-normal text-[15px] hover:text-red-500'>
+                                                <Link href={`${category.title[0].link}${subcategor.link}`}>{subcategor?.name}</Link>
                                             </ul>
                                         ))}
                                     </div>
@@ -28,25 +30,8 @@ const BottomHeader = () => {
                             ))}
                         </div>
                     </div>
-
                 </button>
 
-                {/* <div className='absolute top-[40px] left-0 h-[500px] w-[1210px] bg-white group-hover:block shadow-lg'>
-                        <div className='flex justify-start items-start'>
-                            <img src="/termobilizna.webp" alt="" />
-                            <div className='text-black'>
-                                <p className='text-left'>Термобілизна</p>
-                                <ul className='flex flex-col items-start font-normal text-[15px]'>
-                                    <li>Чоловіча термобілизна</li>
-                                    <li>Жіноча термобілизна</li>
-                                    <li>Дитяча термобілизна</li>
-                                    <li>На кожен день</li>
-                                    <li>Термобілизна для спорту</li>
-                                    <li>Спортивна спідня білизна</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div> */}
                 <div className='text-[15px] space-x-3'>
                     <Link href='/aboutus'>Про нас</Link>
                     <Link href='/aboutus'>Оплата і доставка</Link>

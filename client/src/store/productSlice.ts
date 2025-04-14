@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export interface Product {
     id: string;
     article: string;
+    section: string;
     title: string;
     description: string;
     price: number;
@@ -14,6 +15,7 @@ export interface Product {
     sizeL: string;
     sizeXL: string;
     sizeXXL: string;
+    activityLevel: string;
 }
 
 interface User {

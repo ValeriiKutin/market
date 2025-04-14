@@ -12,7 +12,7 @@ const SportProductCard = ({ product }: any) => {
                 <p className='font-light'>{product.title}</p>
             </Link>
             <span className='font-bold text-[15px]'>{product?.price} грн</span>
-            <div className='mt-[17px]'>
+            <div className='mt-[41px]'>
                 <p className='flex items-center'>Розмір<IoMdInformationCircleOutline className='text-[15px] ml-1' /></p>
                 <form className=''>
                     <div className='flex items-center justify-start space-x-1.5 mt-1.5'>

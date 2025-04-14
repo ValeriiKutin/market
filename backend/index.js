@@ -56,10 +56,11 @@ app.post('/sportstuff', upload.single("image"), (req, res) => {
 
     const imageUrl = req.file ? `${BASE_URL}/uploads/${req.file.filename}` : null;
 
-    const query = 'INSERT INTO sportstuff (`article`,`title`, `description`, `price`, `image`, `category`, `characteristics`, `sizeS`, `sizeM`, `sizeL`, `sizeXL`, `sizeXXL`) VALUES (?)';
+    const query = 'INSERT INTO sportstuff (`article`,`section`,`title`, `description`, `price`, `image`, `category`, `characteristics`, `sizeS`, `sizeM`, `sizeL`, `sizeXL`, `sizeXXL`, `activityLevel`) VALUES (?)';
 
     const values = [
         req.body.article,
+        req.body.section,
         req.body.title,
         req.body.description,
         req.body.price,
@@ -71,6 +72,7 @@ app.post('/sportstuff', upload.single("image"), (req, res) => {
         req.body.sizeL || null,
         req.body.sizeXL || null,
         req.body.sizeXXL || null,
+        req.body.activityLevel || null,
     ];
 
     db.query(query, [values], (err, data) => {
@@ -125,10 +127,7 @@ app.post('/users', (req, res) => {
 /* users table */
 /* delete product */
 app.delete("/sportstuff/:id", (req, res) => {
-    //отримує значення параметра id з URL
     const sportstuffId = req.params.id;
-    //створюється SQL запит для видалення книги
-    //знак питання "?" в запиті для безпеки в нього буде підставлено значення з [bookId] 
     const q = "DELETE FROM sportstuff WHERE id = ?";
     db.query(q, [sportstuffId], (err, data) => {
         if (err) return res.json(err)
@@ -139,9 +138,9 @@ app.delete("/sportstuff/:id", (req, res) => {
 /* updating product */
 app.put('/sportstuff/:id', (req, res) => {
     const sportStuffId = req.params.id;
-    const query = "UPDATE sportstuff SET `article` = ?, `title` = ?, `price` = ?, `image` = ?, `category` = ?, `characteristics` = ?, `sizeS` = ?, `sizeM` = ?, `sizeL` = ?, `sizeXL` = ?, `sizeXXL` = ? WHERE id = ?"
+    const query = "UPDATE sportstuff SET `article` = ?, `section` = ?,`title` = ?, `price` = ?, `image` = ?, `category` = ?, `characteristics` = ?, `sizeS` = ?, `sizeM` = ?, `sizeL` = ?, `sizeXL` = ?, `sizeXXL` = ?, `activityLevel` = ? WHERE id = ?"
 
-    const values = [req.body.article, req.body.title, req.body.price, req.body.image, req.body.category, req.body.characteristics, req.body.sizeS, req.body.sizeM, req.body.sizeL, req.body.sizeXL, req.body.sizeXXL];
+    const values = [req.body.article, req.body.section, req.body.title, req.body.price, req.body.image, req.body.category, req.body.characteristics, req.body.sizeS, req.body.sizeM, req.body.sizeL, req.body.sizeXL, req.body.sizeXXL, req.body.activityLevel];
 
     db.query(query, [...values, sportStuffId], (err, data) => {
         if (err) return res.json(err)

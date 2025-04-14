@@ -23,6 +23,7 @@ interface CurrentItem {
     sizeXL: string
     sizeXXL: string
     title: string
+    activityLevel: string
 }
 
 const SportProductDetails = ({ id }: any) => {

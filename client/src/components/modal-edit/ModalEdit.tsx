@@ -15,6 +15,7 @@ const ModalEdit = ({ selectedProduct, openModal, setOpenModal }: any) => {
   const [sizeL, setSizeL] = useState(selectedProduct?.sizeL);
   const [sizeXL, setSizeXL] = useState(selectedProduct?.sizeXL);
   const [sizeXXL, setSizeXXL] = useState(selectedProduct?.sizeXXL);
+  const [activityLevel, setActivityLevel] = useState(selectedProduct?.activityLevel);
 
   const dispatch = useDispatch()
 
@@ -32,6 +33,7 @@ const ModalEdit = ({ selectedProduct, openModal, setOpenModal }: any) => {
       sizeL: sizeL,
       sizeXL: sizeXL,
       sizeXXL: sizeXXL,
+      activityLevel: activityLevel,
     };
     try {
       await editProduct(selectedProduct.id, updatedProduct, dispatch);
@@ -54,6 +56,7 @@ const ModalEdit = ({ selectedProduct, openModal, setOpenModal }: any) => {
     setSizeL(selectedProduct?.sizeL || '');
     setSizeXL(selectedProduct?.sizeXL || '');
     setSizeXXL(selectedProduct?.sizeXXL || '');
+    setSizeXXL(selectedProduct?.activityLevel || '');
   }, [selectedProduct]);
 
   return (
@@ -74,6 +77,12 @@ const ModalEdit = ({ selectedProduct, openModal, setOpenModal }: any) => {
               <input type="text" placeholder="Назва товару" className="border px-3 py-2 rounded" value={sizeL} onChange={(e) => setSizeL(e.target.value)} />
               <input type="text" placeholder="Назва товару" className="border px-3 py-2 rounded" value={sizeXL} onChange={(e) => setSizeXL(e.target.value)} />
               <input type="text" placeholder="Назва товару" className="border px-3 py-2 rounded" value={sizeXXL} onChange={(e) => setSizeXXL(e.target.value)} />
+              <label htmlFor="" className="block text-sm font-medium text-gray-700">Вид активності:</label>
+              <select className='cursor-pointer' onChange={(e) => setActivityLevel(e.target.value)}>
+                <option value="low-activity" >Низька активність</option>
+                <option value="mid-activity" >Середня активність</option>
+                <option value="high-activity" >Висока активність</option>
+              </select>
               <div className="flex justify-end gap-2">
                 <button
                   onClick={() => setOpenModal(false)}
