@@ -30,6 +30,7 @@ interface ProductState {
     isBtnAdd: boolean;
     isAdmin: boolean;
     products: Product[];
+    filteredProductsByActivity: Product[];
     currentUser: User[];
 }
 
@@ -38,6 +39,7 @@ const initialState: ProductState = {
     isBtnAdd: false,
     isAdmin: false,
     products: [],
+    filteredProductsByActivity: [],
     currentUser: []
 }
 
@@ -52,6 +54,9 @@ export const productSlice = createSlice({
         setProducts: (state: any, action: PayloadAction<Product[]>) => {
             state.products = action.payload
         },
+        setFilteredProductsByActivity: (state: any, action: PayloadAction<Product[]>) => {
+            state.filteredProductsByActivity = action.payload
+        },
         setIsAdmin: (state: any, action: any) => {
             state.isAdmin = action.payload
         },
@@ -63,6 +68,6 @@ export const productSlice = createSlice({
 })
 
 
-export const { setBtnAdd, setProducts, setIsAdmin, setCurrentUser } = productSlice.actions;
+export const { setBtnAdd, setProducts, setIsAdmin, setCurrentUser, setFilteredProductsByActivity } = productSlice.actions;
 
 export default productSlice.reducer;

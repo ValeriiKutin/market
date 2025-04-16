@@ -1,31 +1,18 @@
 import { categories } from '@/src/data/catalog'
 import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../storeProvider/StoreProviderCustom'
+import { setHighSelected, setLowSelected, setMidSelected } from '@/src/store/activityAmountFilterSlise'
 
 interface FilterProps {
   isCatalogUI: boolean
 }
 
 const FIlterBar: React.FC<FilterProps> = ({ isCatalogUI }) => {
-  const [lowActivityCount, setLowActivityCount] = useState<number>(0)
-  const [midActivityCount, setMidActivityCount] = useState<number>(0)
-  const [highActivityCount, setHighActivityCount] = useState<number>(0)
-
-  const products = useSelector((state: RootState) => state.product.products)
-
-
-  useEffect(() => {
-    const low = products.filter((product: any) => product.activityLevel === 'low-activity').length
-    const mid = products.filter((product: any) => product.activityLevel === 'mid-activity').length
-    const high = products.filter((product: any) => product.activityLevel === 'high-activity').length
-
-    setLowActivityCount(low)
-    setMidActivityCount(mid)
-    setHighActivityCount(high)
-  }, [products])
-
+  const dispatch = useDispatch()
+  const highActivityCount = useSelector((state: RootState) => state.activityFilter.highActivityCount)
+  const midActivityCount = useSelector((state: RootState) => state.activityFilter.midActivityCount)
+  const lowActivityCount = useSelector((state: RootState) => state.activityFilter.lowActivityCount)
   return (
     <div className='fixed'>
       {isCatalogUI && (
@@ -37,18 +24,18 @@ const FIlterBar: React.FC<FilterProps> = ({ isCatalogUI }) => {
               ))}
             </div>
           ))}
-          <div className='flex flex-col'>
+          <div className='flex flex-col mt-[15px]'>
             <p>Призначення</p>
             <label>
-              <input type="checkbox" className="mr-[7px]" />
+              <input type="checkbox" className="mr-[7px]" onChange={() => dispatch(setLowSelected())} />
               Низька активність <span>{lowActivityCount}</span>
             </label>
             <label>
-              <input type="checkbox" className="mr-[7px]" />
+              <input type="checkbox" className="mr-[7px]" onChange={() => dispatch(setMidSelected())} />
               Середня активність <span>{midActivityCount}</span>
             </label>
             <label>
-              <input type="checkbox" className="mr-[7px]" />
+              <input type="checkbox" className="mr-[7px]" onChange={() => dispatch(setHighSelected())} />
               Висока активність <span>{highActivityCount}</span>
             </label>
           </div>

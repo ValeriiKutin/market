@@ -63,7 +63,7 @@ const SportProductDetails = ({ id }: any) => {
                         <div className="flex items-center space-x-1.5 mb-[5px]">
                             <Link href='/' className="text-[12px] text-gray-400 hover:text-red-500">Головна</Link>
                             <IoIosArrowForward className="text-[12px]" />
-                            <Link href='/katalog' className="text-[12px] text-gray-400 hover:text-red-500">КАТАЛОГ</Link>
+                            <Link href='/catalog' className="text-[12px] text-gray-400 hover:text-red-500">КАТАЛОГ</Link>
                             <IoIosArrowForward className="text-[12px]" />
                             <Link href='/termobilizna' className="text-[12px] text-gray-400 hover:text-red-500">Термобілизна Craft</Link>
                             <IoIosArrowForward className="text-[12px]" />
