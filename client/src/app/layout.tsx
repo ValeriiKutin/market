@@ -4,6 +4,7 @@ import Header from "../components/header/Header";
 import { ToastContainer } from "react-toastify";
 import StoreProvider from "../components/storeProvider/StoreProviderCustom";
 import BottomHeader from "../components/bottom-header/Bottom-header";
+import Footer from "../components/Footer.tsx/Footer";
 
 
 export const metadata: Metadata = {
@@ -23,11 +24,12 @@ export default function RootLayout({
           className={`antialiased`}
         >
           <div className='container-main'>
-            <ToastContainer position="bottom-right"/>
+            <ToastContainer position="bottom-right" />
             <Header />
             <BottomHeader />
             {children}
           </div>
+          <Footer />
         </body>
       </StoreProvider>
     </html>

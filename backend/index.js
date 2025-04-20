@@ -138,9 +138,9 @@ app.delete("/sportstuff/:id", (req, res) => {
 /* updating product */
 app.put('/sportstuff/:id', (req, res) => {
     const sportStuffId = req.params.id;
-    const query = "UPDATE sportstuff SET `article` = ?, `section` = ?,`title` = ?, `price` = ?, `image` = ?, `category` = ?, `characteristics` = ?, `sizeS` = ?, `sizeM` = ?, `sizeL` = ?, `sizeXL` = ?, `sizeXXL` = ?, `activityLevel` = ? WHERE id = ?"
+    const query = "UPDATE sportstuff SET `section` = ?,`title` = ?, `price` = ?, `image` = ?, `category` = ?, `characteristics` = ?, `sizeS` = ?, `sizeM` = ?, `sizeL` = ?, `sizeXL` = ?, `sizeXXL` = ?, `activityLevel` = ? WHERE id = ?"
 
-    const values = [req.body.article, req.body.section, req.body.title, req.body.price, req.body.image, req.body.category, req.body.characteristics, req.body.sizeS, req.body.sizeM, req.body.sizeL, req.body.sizeXL, req.body.sizeXXL, req.body.activityLevel];
+    const values = [req.body.section, req.body.title, req.body.price, req.body.image, req.body.category, req.body.characteristics, req.body.sizeS, req.body.sizeM, req.body.sizeL, req.body.sizeXL, req.body.sizeXXL, req.body.activityLevel];
 
     db.query(query, [...values, sportStuffId], (err, data) => {
         if (err) return res.json(err)

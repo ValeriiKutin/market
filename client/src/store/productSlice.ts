@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export interface Product {
+export interface Products {
     id: string;
     article: string;
     section: string;
@@ -29,8 +29,8 @@ interface User {
 interface ProductState {
     isBtnAdd: boolean;
     isAdmin: boolean;
-    products: Product[];
-    filteredProductsByActivity: Product[];
+    products: Products[];
+    filteredProductsByActivity: Products[];
     currentUser: User[];
 }
 
@@ -51,16 +51,16 @@ export const productSlice = createSlice({
         setBtnAdd: (state: any) => {
             state.isBtnAdd = !state.isBtnAdd
         },
-        setProducts: (state: any, action: PayloadAction<Product[]>) => {
+        setProducts: (state: any, action: PayloadAction<Products[]>) => {
             state.products = action.payload
         },
-        setFilteredProductsByActivity: (state: any, action: PayloadAction<Product[]>) => {
+        setFilteredProductsByActivity: (state: any, action: PayloadAction<Products[]>) => {
             state.filteredProductsByActivity = action.payload
         },
         setIsAdmin: (state: any, action: any) => {
             state.isAdmin = action.payload
         },
-        setCurrentUser: (state: any, action: PayloadAction<Product[]>) => {
+        setCurrentUser: (state: any, action: PayloadAction<Products[]>) => {
             state.currentUser = action.payload
         },
 

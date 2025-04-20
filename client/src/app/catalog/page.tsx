@@ -60,9 +60,9 @@ const Catalog = () => {
     }, [dispatch])
 
     return (
-        <div>
+        <section>
             <FilterBar isCatalogUI={true} />
-            <div className='flex space-x-4 flex-wrap mt-5 ml-[300px]'>
+            <div className='flex space-x-4 flex-wrap mt-5 ml-[300px] mb-[100px]'>
                 {highSelected === true || midSelected === true || lowSelected === true ? (
                     filteredProductsByActivity?.map((product) => (
                         <SportProductCard product={product} key={product.article} />
@@ -73,7 +73,7 @@ const Catalog = () => {
                     ))
                 )}
             </div>
-        </div>
+        </section>
     )
 }
 

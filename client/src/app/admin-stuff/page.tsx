@@ -17,7 +17,7 @@ import ModalEdit from '@/src/components/modal-edit/ModalEdit'
 type SizeFields = 'sizeS' | 'sizeM' | 'sizeL' | 'sizeXL' | 'sizeXXL';
 
 export interface CreateProductValue {
-  article: string
+  // article: string
   section: string
   title: string
   description: string
@@ -31,6 +31,7 @@ export interface CreateProductValue {
   sizeXL: string
   sizeXXL: string
   activityLevel: string
+  isNew: boolean
 }
 
 
@@ -55,7 +56,7 @@ const AdminStuff = () => {
 
   const schema = yup.object().shape({
     title: yup.string().required(),
-    article: yup.string().required(),
+    // article: yup.string().required(),
     section: yup.string().required(),
     description: yup.string().required(),
     price: yup.number().required(),
@@ -67,6 +68,7 @@ const AdminStuff = () => {
     sizeXL: yup.string().optional(),
     sizeXXL: yup.string().optional(),
     activityLevel: yup.string().optional(),
+    isNew: yup.boolean().optional()
   }) as yup.ObjectSchema<CreateProductValue>;
 
   const { register, handleSubmit, setValue } = useForm<CreateProductValue>(
@@ -76,7 +78,7 @@ const AdminStuff = () => {
   const onCreateProduct = async (data: CreateProductValue) => {
     try {
       const formData = new FormData()
-      formData.append("article", data.article)
+      formData.append("article", String(Date.now()))
       formData.append("section", data.section)
       formData.append("title", data.title)
       formData.append("description", data.description)
@@ -118,10 +120,12 @@ const AdminStuff = () => {
       {isBtnAdd &&
         <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-2xl mb-[35px]">
           <form onSubmit={handleSubmit(onCreateProduct)} className='flex flex-col space-y-4'>
-            <label htmlFor="" className="block text-sm font-medium text-gray-700">Article:</label>
-            <input type="text" className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder='article' {...register('article')} />
             <label htmlFor="" className="block text-sm font-medium text-gray-700">Section:</label>
-            <input type="text" className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder='section' {...register('section')} />
+            <select className='cursor-pointer' {...register('section')}>
+              <option value="soon" >soon...</option>
+              <option value="termobilizna" >Термобілизна</option>
+              <option value="soon" >soon...</option>
+            </select>
             <label htmlFor="" className="block text-sm font-medium text-gray-700">Title:</label>
             <input className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" type="text" placeholder='title' {...register('title')} />
             <label htmlFor="" className="block text-sm font-medium text-gray-700">Description:</label>
@@ -144,7 +148,11 @@ const AdminStuff = () => {
             {preview && <img src={preview} alt="Preview" width={200} className="mt-2 w-48 rounded-lg" />
             }
             <label htmlFor="" className="block text-sm font-medium text-gray-700">Category:</label>
-            <input type="text" placeholder='category' {...register("category")} className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <select className='cursor-pointer' {...register("category")}>
+              <option value="cholovicha-termobilizna">Чоловіча термобілизна</option>
+              <option value="soon">soon...</option>
+              <option value="soon">soon...</option>
+            </select>
             <label htmlFor="" className="block text-sm font-medium text-gray-700">Characteristics:</label>
             <textarea placeholder='characteristics' {...register("characteristics")} className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
             <label htmlFor="" className="block text-sm font-medium text-gray-700">Вид активності:</label>
@@ -178,7 +186,7 @@ const AdminStuff = () => {
         <table className="min-w-[1000px] table-auto border border-gray-300 text-sm">
           <thead className="bg-gray-100">
             <tr>
-              {['id', 'article', 'title', 'description', 'price', 'image', 'category', 'characteristics', 'sizeS', 'sizeM', 'sizeL', 'sizeXL', 'sizeXXL', 'activityLevel']?.map((title) => (
+              {['id', 'article', 'section', 'title', 'description', 'price', 'image', 'category', 'characteristics', 'sizeS', 'sizeM', 'sizeL', 'sizeXL', 'sizeXXL', 'activityLevel']?.map((title) => (
                 <th key={title} className="border border-gray-300 px-4 py-2 text-left font-medium text-gray-700">
                   {title}
                 </th>

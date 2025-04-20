@@ -18,6 +18,7 @@ const Termobilizna = () => {
     useEffect(() => {
         refreshProducts(dispatch)
     }, [dispatch])
+    
     return (
         <div className='flex space-x-4 flex-wrap mt-5'>
             {filterProduct.map((product) => (
