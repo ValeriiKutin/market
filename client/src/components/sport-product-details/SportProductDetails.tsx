@@ -1,6 +1,5 @@
 'use client'
 import { useEffect, useState } from "react";
-import axios from "axios";
 import Link from "next/link";
 import { IoCheckmarkCircleOutline } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa";

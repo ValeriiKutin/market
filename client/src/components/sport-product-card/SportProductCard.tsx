@@ -1,4 +1,4 @@
-import { Product } from '@/src/store/productSlice'
+import { Products } from '@/src/store/productSlice'
 import Link from 'next/link'
 import { IoMdInformationCircleOutline } from 'react-icons/io'
 
@@ -17,7 +17,7 @@ const SportProductCard = ({ product }: any) => {
                 <form className=''>
                     <div className='flex items-center justify-start space-x-1.5 mt-1.5'>
                         {['S', 'M', 'L', 'XL', 'XXL'].map((size) => (
-                            <div key={size} className={`${Number(product[`size${size}` as keyof Product]) <= 0 && "opacity-5 pointer-events-none"}`}>
+                            <div key={size} className={`${Number(product[`size${size}` as keyof Products]) <= 0 && "opacity-5 pointer-events-none"}`}>
                                 <input type="radio" id={`${product.article}-${size}`} name="size" value={size} className="sr-only peer" />
                                 <label className="border px-2 py-1 rounded-md cursor-pointer transition-all duration-200 
            hover:bg-gray-200 peer-checked:bg-black peer-checked:text-white peer-checked:hover:bg-amber-700" htmlFor={`${product.article}-${size}`}>{size}</label>

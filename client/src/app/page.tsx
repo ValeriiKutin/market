@@ -8,6 +8,7 @@ import SmallBanners from "../components/small-banners/SmallBanners";
 import { RootState } from "../components/storeProvider/StoreProviderCustom";
 import { useEffect } from "react";
 import { refreshProducts } from "../services/refreshProducts";
+import Popup from "../components/popup/Popup";
 
 export default function Home() {
   const products = useSelector((state: RootState) => state.product.products)
@@ -24,6 +25,7 @@ export default function Home() {
       <ProductsSlider products={products} sliderTitle={'Хіти продажу'} />
       <ProductsSlider products={products} sliderTitle={'Розпродаж'} />
       <BenefitList />
+      <Popup />
     </section>
   );
 }

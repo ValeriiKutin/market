@@ -25,7 +25,7 @@ const ProductsSlider = ({ sliderTitle, products }: SliderProps) => {
     // }, [dispatch])
     return (
 
-        <div className='h-[417px] w-[97%] relative z-20 mb-[40px]'>
+        <div className='h-[417px] w-[97%] relative mb-[40px] z-0'>
             <p className='text-[21px] text-red-500 text-center mb-[20px] font-bold'>{sliderTitle}</p>
             <Swiper
                 slidesPerView={1}

@@ -1,7 +1,8 @@
 'use client'
 import { configureStore } from "@reduxjs/toolkit";
 import productReducer from "../../store/productSlice";
-import activityAmountFilterSlise from '../../store/activityAmountFilterSlise'
+import activityAmountFilterSliseReducer from '../../store/activityAmountFilterSlise'
+import shoppingCartReducer from '../../store/shoppingCartSlice'
 import React from 'react'
 import { Provider } from "react-redux";
 
@@ -11,7 +12,8 @@ export type AppDispatch = typeof store.dispatch;
 const store = configureStore({
     reducer: {
         product: productReducer,
-        activityFilter: activityAmountFilterSlise,
+        activityFilter: activityAmountFilterSliseReducer,
+        shoppingCart: shoppingCartReducer,
     },
     middleware: (getDefaultMiddleware) => {
         return getDefaultMiddleware({

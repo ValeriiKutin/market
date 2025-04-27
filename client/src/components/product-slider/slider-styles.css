@@ -3,6 +3,7 @@
     height: 100%;
     overflow: visible;
     position: relative;
+    z-index: 50;
 }
 
 .swiper-pagination {
